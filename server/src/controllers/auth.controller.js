@@ -1,4 +1,5 @@
 import staffService from "../services/staff.service.js";
+import generateTokenAndSetCookie from "../utils/generateTokenAndSetCookie.js";
 
 export const register = async (req, res) => {
   try {
@@ -17,6 +18,9 @@ export const register = async (req, res) => {
       role,
       status,
     });
+
+    // Generate JWT token and set it in the cookie
+    generateTokenAndSetCookie(res, newStaff.id);
 
     // Return the registered staff member's details (excluding password)
     res.status(201).json({
@@ -49,6 +53,9 @@ export const login = async (req, res) => {
 
     // Login the staff member
     const staff = await staffService.loginStaff(email, password);
+
+    // Generate JWT token and set it in the cookie
+    generateTokenAndSetCookie(res, staff.id);
 
     // Return the logged-in staff member's details (excluding password)
     res.status(200).json({
