@@ -1,6 +1,12 @@
 import db from "../config/db.js";
 
 class staffModel {
+  // Find a staff member by ID
+  static async findById(id) {
+    const { rows } = await db.query("SELECT * FROM staff WHERE id = $1", [id]);
+    return rows[0];
+  }
+
   // Find a staff member by email
   static async findByEmail(email) {
     const query = "SELECT * FROM staff WHERE email = $1";

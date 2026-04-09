@@ -83,3 +83,21 @@ export const logout = (req, res) => {
     console.error(`Logout Controller Error: ${error.message}`);
   }
 };
+
+export const getCurrentUser = (req, res) => {
+  try {
+    // The authentication middleware has already verified the token and attached the user to the request object
+    const user = req.user;
+
+    // Exclude the password from the user details before sending the response
+    const { password, ...safeUser } = user;
+
+    // Return the current user's details
+    res.status(200).json({
+      user: safeUser,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+    console.error(`Get Current User Controller Error: ${error.message}`);
+  }
+};

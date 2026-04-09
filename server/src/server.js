@@ -1,10 +1,14 @@
 import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 import ENV from "./utils/ENV.js";
 import userRoutes from "./routes/auth.route.js";
 
 // Initialize Express app
 const app = express(); // Middleware to parse JSON bodies
 app.use(express.json()); // Middleware to parse URL-encoded bodies
+app.use(cookieParser()); // Middleware to parse cookies
+app.use(cors()); // Middleware to enable CORS
 
 // Test route to check if the server is running
 app.get("/", (req, res) => {
