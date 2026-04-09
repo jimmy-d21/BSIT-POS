@@ -73,3 +73,13 @@ export const login = async (req, res) => {
     console.error(`Login Controller Error: ${error.message}`);
   }
 };
+
+export const logout = (req, res) => {
+  try {
+    res.cookie("jwt", "");
+    res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    res.status(500).json({ message: "Logout failed" });
+    console.error(`Logout Controller Error: ${error.message}`);
+  }
+};
