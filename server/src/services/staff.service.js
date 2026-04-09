@@ -3,7 +3,7 @@ import staffModel from "../models/staffModel.js";
 import generateStaffUsn from "../utils/generateStaffUsn.js";
 
 const staffService = {
-  // Find a staff member by email
+  // Register a new staff member
   registerStaff: async (staffData) => {
     const { name, email, role, status } = staffData;
 
@@ -39,6 +39,22 @@ const staffService = {
       status,
       password: hashedPassword,
     });
+  },
+
+  // Login a staff member
+  loginStaff: async (email, password) => {
+    // Find the staff member by email
+    const staff = await staffModel.findByEmail(email);
+    if (!staff) {
+      throw new Error("Invalid email or password");
+    }
+
+    // Compare the provided password with the stored hashed password
+    const isMatch = await bcrypt.compare(password, staff.password);
+    if (!isMatch) {
+      throw new Error("Invalid email or password");
+    }
+    return staff;
   },
 };
 
